@@ -57,12 +57,15 @@ class MoneyManager extends Component {
         expenses: preState.expenses + parseInt(preState.amount),
       }))
     }
+    this.setState({title: '', amount: ''})
   }
 
   deleteTransaction = id => {
     const {transactions} = this.state
     const filterData = transactions.filter(each => each.id !== id)
+    console.log(filterData)
     const filterAmount = transactions.filter(each => each.id === id)
+    console.log(filterAmount)
 
     const {amount, type} = filterAmount[0]
 
@@ -75,7 +78,7 @@ class MoneyManager extends Component {
     } else {
       this.setState(preState => ({
         total: preState.total + parseInt(amount),
-        expenses: preState.income - parseInt(amount),
+        expenses: preState.expenses - parseInt(amount),
       }))
     }
   }
@@ -92,9 +95,9 @@ class MoneyManager extends Component {
             <span className="span-text"> Money Manager</span>
           </p>
         </div>
-        <ul className="money-details-container">
+        <div className="money-details-container">
           <MoneyDetails income={income} expenses={expenses} total={total} />
-        </ul>
+        </div>
         <div className="bottom-section">
           <form className="form-container" onSubmit={this.onClickDisplayAmount}>
             <div>
@@ -106,6 +109,7 @@ class MoneyManager extends Component {
               </label>
               <br />
               <input
+                id="title"
                 className="input"
                 type="text"
                 placeholder="TITLE"
@@ -119,6 +123,7 @@ class MoneyManager extends Component {
               </label>
               <br />
               <input
+                id="amount"
                 className="input"
                 type="text"
                 placeholder="AMOUNT"
@@ -130,18 +135,18 @@ class MoneyManager extends Component {
               TYPE
             </label>
             <br />
-            <ul className="money-details-container">
+            <div className="money-details-container">
               <select
                 className="input-container input"
                 onChange={this.onOptionChanged}
               >
                 {transactionTypeOptions.map(each => (
-                  <option key={each.optionId} value={each.displayText}>
+                  <option key={each.optionId} value={each.optionId}>
                     {each.displayText}
                   </option>
                 ))}
               </select>
-            </ul>
+            </div>
             <button type="submit" className="add-btn">
               Add
             </button>
